@@ -4,7 +4,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "lint": "eslint --ext .js --fix src/"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +18,13 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.5"
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^1.18.5",
+    "prettier": "^2.3.0"
   }
 }
