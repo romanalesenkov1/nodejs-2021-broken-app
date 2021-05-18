@@ -2,6 +2,12 @@ const router = require('express').Router();
 const {StatusCodes} = require('http-status-codes');
 const Game = require('../models/game');
 
+function onError (res, err) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: err.message
+    })
+}
+
 router.use(require('../middleware/validate-session'))
 
 router.get('/all', (req, res) => {
@@ -14,11 +20,7 @@ router.get('/all', (req, res) => {
                 })
             },
 
-            () => {
-                res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                    message: "Internal Server Error"
-                })
-            }
+            (err) => onError (res, err)
         )
 })
 
@@ -37,12 +39,7 @@ router.get('/:id', (req, res) => {
                 }
 
             },
-
-            () => {
-                res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                    message: "Internal Server Error"
-                })
-            }
+            (err) => onError (res, err)
         )
 })
 
@@ -63,9 +60,7 @@ router.post('/create', (req, res) => {
                 })
             },
 
-            (err) => {
-                res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message)
-            }
+            (err) => onError (res, err)
         )
 })
 
@@ -91,11 +86,7 @@ router.put('/update/:id', (req, res) => {
                 })
             },
 
-            (err) => {
-                res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                    message: err.message
-                })
-            }
+            (err) => onError (res, err)
 
         )
 })
@@ -115,11 +106,7 @@ router.delete('/remove/:id', (req, res) => {
             })
         },
 
-        (err) => {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                error: err.message
-            })
-        }
+        (err) => onError (res, err)
     )
 })
 
