@@ -8,7 +8,7 @@ router.post('/signup', (req, res) => {
     User.create({
         full_name: req.body.user.full_name,
         username: req.body.user.username,
-        passwordhash: bcrypt.hashSync(req.body.user.password, 10),
+        passwordHash: bcrypt.hashSync(req.body.user.password, 10),
         email: req.body.user.email,
     })
         .then(
@@ -38,11 +38,11 @@ router.post('/signin', (req, res) => {
                         sessionToken: token
                     });
                 } else {
-                    res.status(502).send({ error: "Passwords do not match." })
+                    res.status(401).send({ error: "Passwords do not match." })
                 }
             });
         } else {
-            res.status(403).send({ error: "User not found." })
+            res.status(404).send({ error: "User not found." })
         }
 
     })
