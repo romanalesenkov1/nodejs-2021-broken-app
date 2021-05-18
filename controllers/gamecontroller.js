@@ -26,6 +26,11 @@ router.get('/:id', (req, res) => {
     Game.findOne({ where: { id: req.params.id, owner_id: req.user.id } })
         .then(
             function findSuccess(game) {
+                if (!game) {
+                    return res.status(StatusCodes.NOT_FOUND).json({
+                        message: "Game Not Found"
+                    })
+                }
                 res.status(StatusCodes.OK).json({
                     game: game
                 })
