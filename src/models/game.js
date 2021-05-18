@@ -1,5 +1,6 @@
-var DataTypes = require('sequelize');
-var db = require('./../db');
+const DataTypes = require('sequelize');
+const db = require("../db");
+
 const Game = db.define('game', {
     title: {
         type: DataTypes.STRING(25),
