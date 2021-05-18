@@ -1,8 +1,7 @@
 var router = require('express').Router();
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-
-var User = require('../models/user');
+var StatusCodes = require('http-status-codes').StatusCodes;
 
 router.post('/signup', (req, res) => {
     User.create({
@@ -14,14 +13,14 @@ router.post('/signup', (req, res) => {
         .then(
             function signupSuccess(user) {
                 let token = jwt.sign({ id: user.id }, 'lets_play_sum_games_man', { expiresIn: 60 * 60 * 24 });
-                res.status(200).json({
+                res.status(StatusCodes.OK).json({
                     user: user,
                     token: token
                 })
             },
 
             function signupFail(err) {
-                res.status(500).send(err.message)
+                res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message)
             }
         )
 })
@@ -38,11 +37,11 @@ router.post('/signin', (req, res) => {
                         sessionToken: token
                     });
                 } else {
-                    res.status(401).send({ error: "Passwords do not match." })
+                    res.status(StatusCodes.UNAUTHORIZED).send({ error: "Passwords do not match." })
                 }
             });
         } else {
-            res.status(404).send({ error: "User not found." })
+            res.status(StatusCodes.NOT_FOUND).send({ error: "User not found." })
         }
 
     })
